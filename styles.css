@@ -1,3 +1,11 @@
+:root {
+  --dark: #303952;
+  --mid: #596275;
+  --light: whitesmoke;
+  --acc1: #b33939;
+  --acc2: #ffb142;
+}
+
 /* || GENERAL */
 
 * {
@@ -8,7 +16,7 @@
 
 body {
   background-color: black;
-  color: white;
+  color: var(--light);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -21,18 +29,25 @@ main {
 /* || DISPLAY */
 
 .display {
-  background-color: gray;
-  padding: 16px;
-  margin-bottom: 2px;
+  background-color: var(--mid);
+  padding: 40px 16px 16px 16px;
+  margin-bottom: 8px;
   text-align: right;
   font-size: 32px;
-  border-radius: 4px;
+  border-radius: 8px;
+  position: relative;
 }
 
 .equation {
-  display: block;
-  color: black;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: var(--acc2);
   font-size: 18px;
+}
+
+.input {
+  font-weight: bold;
 }
 
 /* || BUTTONS */
@@ -40,40 +55,42 @@ main {
 button {
   cursor: pointer;
   border: none;
-  background-color: gray;
+  background-color: var(--mid);
+  color: var(--light);
   padding: 32px 40px;
   font-size: 18px;
   line-height: 18px;
-  border-radius: 4px;
+  border-radius: 8px;
   transition: 0.3s;
 }
 
 button:hover {
-  background-color: white;
+  background-color: var(--light);
+  color: var(--dark);
 }
 
 .btns {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
-  gap: 2px;
+  gap: 8px;
 }
 
 .clear {
-  background-color: tomato;
+  background-color: var(--acc1);
   grid-column: span 2;
 }
 
 .operator {
-  background-color: lightgreen;
+  background-color: var(--dark);
 }
 
-.zero {
+#zero {
   grid-column: span 2;
 }
 
 .equals {
-  background-color: greenyellow;
+  background-color: var(--acc2);
   grid-row: 4 / span 2;
   grid-column: 4;
 }
