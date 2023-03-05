@@ -2,50 +2,25 @@ const equation = document.querySelector(".equation");
 const input = document.querySelector(".input");
 const btns = document.querySelectorAll("button");
 
-// * when user clicks number buttons, populate the display
-// replace default value of 0 with whatever is clicked
-// allow user to chain numbers
-// * store first number in a variable when operator is pressed
-// TODO: convert to numbers to prevent string concatenation
-// TODO: fix zeros not being added
-
-let num1;
-let num2;
-let operator;
+let num1 = "";
+let num2 = "";
+let operator = "";
 
 btns.forEach((btn) => {
-  btn.addEventListener("click", handleBtns);
+  btn.addEventListener("click", control);
 });
 
-function handleBtns(e) {
+function control(e) {
   const { className: btnClass, textContent: btnVal } = e.target;
-
   switch (btnClass) {
     case "number":
-      // chain numbers in display
-      input.textContent += btnVal;
-      // replace 0
-      if (input.textContent.startsWith("0")) {
-        const zeroThenNum = /0[0-9]/g;
-        input.textContent = input.textContent.replace(zeroThenNum, btnVal);
-      }
-      // if num1 is set, update input with new num
-      if (num1) {
-        input.textContent = btnVal;
-      }
+      handleNumber(btnVal);
       break;
     case "operator":
-      operator = btnVal;
-      num1 = input.textContent;
-      equation.textContent = `${num1} ${operator}`;
+      handleOperator(btnVal);
       break;
     case "equals":
-      // set num2 equal to new input
-      num2 = input.textContent;
-      // update equation
-      equation.textContent = `${num1} ${operator} ${num2} =`;
-      // set input equal to result
-      input.textContent = calculate(num1, operator, num2);
+      handleEquals();
       break;
     case "clear":
       reset();
@@ -53,36 +28,81 @@ function handleBtns(e) {
   }
 }
 
-function reset() {
-  equation.textContent = "";
-  input.textContent = "0";
-}
-
-function calculate(a, operator, b) {
-  switch (operator) {
-    case "+":
-      return add(a, b);
-    case "-":
-      return subtract(a, b);
-    case "*":
-      return multiply(a, b);
-    case "/":
-      return divide(a, b);
+function handleNumber(btnVal) {
+  if (!operator) {
+    updateNum(num1, btnVal, setNum1);
+  } else {
+    updateNum(num2, btnVal, setNum2);
   }
 }
 
-function add(a, b) {
-  return a + b;
+function updateNum(num, btnVal, setNumFunc) {
+  num += btnVal;
+  num = replaceBeginningZero(num, btnVal);
+  setNumFunc(num);
 }
 
-function subtract(a, b) {
-  return a - b;
+function replaceBeginningZero(num, btnVal) {
+  const zeroThenNum = /^0[0-9]/g;
+  const replacedVal = num.replace(zeroThenNum, btnVal);
+  return replacedVal;
 }
 
-function multiply(a, b) {
-  return a * b;
+function setNum1(num) {
+  num1 = num;
+  updateInputDisplay(num1);
 }
 
-function divide(a, b) {
-  return a / b;
+function setNum2(num) {
+  num2 = num;
+  updateInputDisplay(num2);
+}
+
+function updateInputDisplay(num) {
+  input.textContent = num;
+}
+
+function handleOperator(btnVal) {
+  if (!num2) {
+    operator = btnVal;
+    equation.textContent = `${num1} ${operator}`;
+  } else {
+    calculateViaOperator(btnVal);
+  }
+}
+
+function calculateViaOperator(btnVal) {
+  const result = calculate(Number(num1), operator, Number(num2));
+  num1 = result; // num1 will always be set to result
+  operator = btnVal;
+  equation.textContent = `${num1} ${operator}`; // update equation
+  updateInputDisplay(result);
+  num2 = ""; // reset num2 to prepare for new num2
+}
+
+function handleEquals() {
+  equation.textContent = `${num1} ${operator} ${num2} =`;
+  const result = calculate(Number(num1), operator, Number(num2));
+  updateInputDisplay(result);
+}
+
+function calculate(num1, operator, num2) {
+  switch (operator) {
+    case "+":
+      return num1 + num2;
+    case "-":
+      return num1 - num2;
+    case "*":
+      return num1 * num2;
+    case "/":
+      return num1 / num2;
+  }
+}
+
+function reset() {
+  num1 = "";
+  num2 = "";
+  operator = "";
+  input.textContent = "0";
+  equation.textContent = "";
 }
