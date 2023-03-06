@@ -71,10 +71,15 @@ function handleOperator(btnVal) {
   if (!num1) num1 = "0"; // if user presses operator without num1, assume value is 0
   if (!num2) {
     operator = btnVal;
-    equation.textContent = `${num1} ${operator}`;
+    updateEquation(num1, operator);
   } else {
     calculateViaOperator(btnVal);
   }
+}
+
+function updateEquation() {
+  const equationText = Array.from(arguments).join(" ");
+  equation.textContent = equationText;
 }
 
 function calculateViaOperator(btnVal) {
@@ -82,14 +87,14 @@ function calculateViaOperator(btnVal) {
   num1 = result; // num1 will always be set to result at this stage
   updateInputDisplay(result);
   operator = btnVal;
-  equation.textContent = `${num1} ${operator}`;
+  updateEquation(num1, operator);
   num2 = ""; // reset to prepare for new num2
 }
 
 function handleEquals() {
   if (!operator) return; // prevent user from evaluating a single number
   if (!num2) num2 = num1; // when user hits equals without entering num2, copy value
-  equation.textContent = `${num1} ${operator} ${num2} =`;
+  updateEquation(num1, operator, num2, "=");
   const result = calculate(Number(num1), operator, Number(num2));
   updateInputDisplay(result);
 }
@@ -115,6 +120,6 @@ function reset() {
   num1 = "";
   num2 = "";
   operator = "";
-  input.textContent = "0";
-  equation.textContent = "";
+  updateInputDisplay("0");
+  updateEquation("");
 }
