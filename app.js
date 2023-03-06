@@ -73,14 +73,16 @@ function handleOperator(btnVal) {
 
 function calculateViaOperator(btnVal) {
   const result = calculate(Number(num1), operator, Number(num2));
-  num1 = result; // num1 will always be set to result
-  operator = btnVal;
-  equation.textContent = `${num1} ${operator}`; // update equation
+  num1 = result; // num1 will always be set to result at this stage
   updateInputDisplay(result);
-  num2 = ""; // reset num2 to prepare for new num2
+  operator = btnVal;
+  equation.textContent = `${num1} ${operator}`;
+  num2 = ""; // reset to prepare for new num2
 }
 
 function handleEquals() {
+  if (!operator) return; // prevent user from evaluating a single number
+  if (!num2) num2 = num1; // when user hits equals without entering num2, copy value
   equation.textContent = `${num1} ${operator} ${num2} =`;
   const result = calculate(Number(num1), operator, Number(num2));
   updateInputDisplay(result);
