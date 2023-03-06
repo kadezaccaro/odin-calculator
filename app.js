@@ -58,8 +58,13 @@ function setNum2(num) {
   updateInputDisplay(num2);
 }
 
-function updateInputDisplay(num) {
-  input.textContent = num;
+function updateInputDisplay(value) {
+  input.textContent = value;
+  if (value === "Cannot divide by 0") {
+    setTimeout(() => {
+      updateInputDisplay("0"); // clear error message back to 0 after 1 second
+    }, 1000);
+  }
 }
 
 function handleOperator(btnVal) {
@@ -89,6 +94,10 @@ function handleEquals() {
 }
 
 function calculate(num1, operator, num2) {
+  if (operator === "/" && num2 === 0) {
+    reset();
+    return "Cannot divide by 0";
+  }
   switch (operator) {
     case "+":
       return num1 + num2;
