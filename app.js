@@ -68,6 +68,7 @@ function updateInputDisplay(value) {
 }
 
 function handleOperator(btnVal) {
+  if (!num1) num1 = "0"; // if user presses operator without num1, assume value is 0
   if (!num2) {
     operator = btnVal;
     equation.textContent = `${num1} ${operator}`;
