@@ -12,12 +12,16 @@ btns.forEach((btn) => {
 
 function control(e) {
   const { className: btnClass, textContent: btnVal } = e.target;
+
   switch (btnClass) {
     case "number":
       handleNumber(btnVal);
       break;
     case "operator":
       handleOperator(btnVal);
+      break;
+    case "decimal":
+      handleDecimal(btnVal);
       break;
     case "equals":
       handleEquals();
@@ -34,6 +38,7 @@ function handleNumber(btnVal) {
   } else {
     updateNum(num2, btnVal, setNum2);
   }
+
   const equationComplete = equation.textContent.includes("=");
   if (equationComplete) {
     reset(); // if user completes full equation, reset when the next number is pressed
@@ -42,6 +47,12 @@ function handleNumber(btnVal) {
 }
 
 function updateNum(num, btnVal, setNumFunc) {
+  if (btnVal === "." && !num1) {
+    num = "0"; // default to "0." instead of replacing with ".";
+  } else if (btnVal === "." && operator && !num2) {
+    num = "0"; // default to "0." instead of replacing with ".";
+  }
+
   num += btnVal;
   num = replaceBeginningZero(num, btnVal);
   setNumFunc(num);
@@ -65,6 +76,7 @@ function setNum2(num) {
 
 function updateInputDisplay(value) {
   input.textContent = value;
+
   if (value === "Cannot divide by 0") {
     setTimeout(() => {
       updateInputDisplay("0"); // clear error message back to 0 after 1 second
@@ -74,6 +86,7 @@ function updateInputDisplay(value) {
 
 function handleOperator(btnVal) {
   if (!num1) num1 = "0"; // if user presses operator without num1, assume value is 0
+
   if (!num2) {
     operator = btnVal;
     updateEquation(num1, operator);
@@ -89,17 +102,30 @@ function updateEquation() {
 
 function calculateViaOperator(btnVal) {
   const result = calculate(Number(num1), operator, Number(num2));
+
   num1 = result; // num1 will always be set to result at this stage
   updateInputDisplay(result);
+
   operator = btnVal;
   updateEquation(num1, operator);
+
   num2 = ""; // reset to prepare for new num2
+}
+
+function handleDecimal(btnVal) {
+  if (!operator && num1.includes(".")) return; // prevent multiple decimals for num1
+  const equationComplete = equation.textContent.includes("=");
+  if (num2.includes(".") && !equationComplete) return; // prevent multiple decimals for num2
+
+  handleNumber(btnVal); // add decimal to nums (treat as a normal number)
 }
 
 function handleEquals() {
   if (!operator) return; // prevent user from evaluating a single number
-  if (!num2) num2 = num1; // when user hits equals without entering num2, copy value
+  if (!num2) num2 = num1; // if user presses equals without entering num2, copy value
+
   updateEquation(num1, operator, num2, "=");
+
   const result = calculate(Number(num1), operator, Number(num2));
   updateInputDisplay(result);
 }
@@ -109,6 +135,7 @@ function calculate(num1, operator, num2) {
     reset();
     return "Cannot divide by 0";
   }
+
   switch (operator) {
     case "+":
       return num1 + num2;
