@@ -2,8 +2,8 @@
   --dark: #303952;
   --mid: #596275;
   --light: whitesmoke;
-  --acc1: #b33939;
-  --acc2: #ffb142;
+  --accent-1: #ff5733;
+  --accent-2: #a5c5d9;
 }
 
 /* || GENERAL */
@@ -17,7 +17,7 @@
 body {
   background-color: black;
   color: var(--light);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 main {
@@ -29,7 +29,7 @@ main {
 /* || DISPLAY */
 
 .display {
-  background-color: var(--mid);
+  background-color: var(--dark);
   padding: 40px 16px 16px 16px;
   margin-bottom: 8px;
   text-align: right;
@@ -42,7 +42,7 @@ main {
   position: absolute;
   top: 16px;
   right: 16px;
-  color: var(--acc2);
+  color: var(--accent-2);
   font-size: 18px;
 }
 
@@ -53,6 +53,7 @@ main {
 /* || BUTTONS */
 
 button {
+  font-family: Helvetica, Arial, sans-serif;
   cursor: pointer;
   border: none;
   background-color: var(--mid);
@@ -77,7 +78,7 @@ button:hover {
 }
 
 .clear {
-  background-color: var(--acc1);
+  background-color: var(--accent-1);
   grid-column: span 2;
 }
 
@@ -90,7 +91,8 @@ button:hover {
 }
 
 .equals {
-  background-color: var(--acc2);
+  background-color: var(--accent-2);
+  color: var(--dark);
   grid-row: 4 / span 2;
   grid-column: 4;
 }
