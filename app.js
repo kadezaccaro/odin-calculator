@@ -34,6 +34,11 @@ function handleNumber(btnVal) {
   } else {
     updateNum(num2, btnVal, setNum2);
   }
+  const equationComplete = equation.textContent.includes("=");
+  if (equationComplete) {
+    reset(); // if user completes full equation, reset when the next number is pressed
+    handleNumber(btnVal); // start over with pressed value
+  }
 }
 
 function updateNum(num, btnVal, setNumFunc) {
