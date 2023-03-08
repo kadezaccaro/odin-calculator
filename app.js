@@ -85,6 +85,8 @@ function updateInputDisplay(value) {
 }
 
 function handleOperator(btnVal) {
+  num1 = removeTrailingDecimal(num1);
+
   if (!num1) num1 = "0"; // if user presses operator without num1, assume value is 0
 
   if (!num2) {
@@ -92,6 +94,16 @@ function handleOperator(btnVal) {
     updateEquation(num1, operator);
   } else {
     calculateViaOperator(btnVal);
+  }
+}
+
+function removeTrailingDecimal(num) {
+  const lastChar = num.toString().charAt(num.length - 1);
+  if (lastChar === ".") {
+    const decimalRemoved = num.slice(0, -1); // remove last character from num
+    return decimalRemoved;
+  } else {
+    return num;
   }
 }
 
@@ -121,6 +133,8 @@ function handleDecimal(btnVal) {
 }
 
 function handleEquals() {
+  num2 = removeTrailingDecimal(num2);
+
   if (!operator) return; // prevent user from evaluating a single number
   if (!num2) num2 = num1; // if user presses equals without entering num2, copy value
 
