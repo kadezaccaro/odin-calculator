@@ -47,15 +47,19 @@ function handleNumber(btnVal) {
 }
 
 function updateNum(num, btnVal, setNumFunc) {
-  if (btnVal === "." && !num1) {
-    num = "0"; // default to "0." instead of replacing with ".";
-  } else if (btnVal === "." && operator && !num2) {
-    num = "0"; // default to "0." instead of replacing with ".";
-  }
-
+  num = defaultToZeroDecimal(num, btnVal);
   num += btnVal;
-  num = replaceBeginningZero(num, btnVal);
+  num = removeLeadingZeros(num, btnVal);
   setNumFunc(num);
+}
+
+function defaultToZeroDecimal(num, btnVal) {
+  if (btnVal === "." && !num1) {
+    num = "0"; // default num1 to "0." instead of replacing with ".";
+  } else if (btnVal === "." && operator && !num2) {
+    num = "0"; // default num2 to "0." instead of replacing with ".";
+  }
+  return num;
 }
 
 function removeLeadingZeros(num, btnVal) {
