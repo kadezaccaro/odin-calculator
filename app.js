@@ -20,9 +20,6 @@ function processBtnClick(event) {
     case "operator":
       handleOperator(btnVal);
       break;
-    case "decimal":
-      handleDecimal(btnVal);
-      break;
     case "equals":
       handleEquals();
       break;
@@ -47,25 +44,17 @@ function handleNumber(btnVal) {
 }
 
 function updateNum(num, btnVal, setNumFunc) {
-  num = defaultToZeroDecimal(num, btnVal);
-  num += btnVal;
-  num = removeLeadingZeros(num, btnVal);
-  setNumFunc(num);
-}
-
-function defaultToZeroDecimal(num, btnVal) {
-  if (btnVal === "." && !num1) {
-    num = "0"; // default num1 to "0." instead of replacing with ".";
-  } else if (btnVal === "." && operator && !num2) {
-    num = "0"; // default num2 to "0." instead of replacing with ".";
+  if (btnVal === "." && (!num || num === "0")) {
+    num = "0."; // default to "0." instead of replacing with "."
+  } else if (btnVal === "." && num.includes(".")) {
+    return; // prevent multiple decimals
+  } else if (num === "0") {
+    num = btnVal; // prevent multiple leading zeros
+  } else {
+    num += btnVal;
   }
-  return num;
-}
 
-function removeLeadingZeros(num, btnVal) {
-  const zeroThenNum = /^0[0-9]/g;
-  const replacedVal = num.replace(zeroThenNum, btnVal);
-  return replacedVal;
+  setNumFunc(num);
 }
 
 function setNum1(num) {
@@ -127,14 +116,6 @@ function calculateViaOperator(btnVal) {
   updateEquation(num1, operator);
 
   num2 = ""; // reset to prepare for new num2
-}
-
-function handleDecimal(btnVal) {
-  if (!operator && num1.includes(".")) return; // prevent multiple decimals for num1
-  const equationComplete = equation.textContent.includes("=");
-  if (num2.includes(".") && !equationComplete) return; // prevent multiple decimals for num2
-
-  handleNumber(btnVal); // add decimal to nums (treat as a normal number)
 }
 
 function handleEquals() {
