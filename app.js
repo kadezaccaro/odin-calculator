@@ -105,6 +105,7 @@ function removeTrailingDecimal(num) {
   const lastChar = num.toString().charAt(num.length - 1);
   if (lastChar === ".") {
     const decimalRemoved = num.slice(0, -1); // remove last character from num
+    updateInputDisplay(decimalRemoved);
     return decimalRemoved;
   } else {
     return num;
