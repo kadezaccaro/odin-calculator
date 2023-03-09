@@ -7,11 +7,11 @@ let num2 = "";
 let operator = "";
 
 btns.forEach((btn) => {
-  btn.addEventListener("click", control);
+  btn.addEventListener("click", processBtnClick);
 });
 
-function control(e) {
-  const { className: btnClass, textContent: btnVal } = e.target;
+function processBtnClick(event) {
+  const { className: btnClass, textContent: btnVal } = event.target;
 
   switch (btnClass) {
     case "number":
@@ -58,7 +58,7 @@ function updateNum(num, btnVal, setNumFunc) {
   setNumFunc(num);
 }
 
-function replaceBeginningZero(num, btnVal) {
+function removeLeadingZeros(num, btnVal) {
   const zeroThenNum = /^0[0-9]/g;
   const replacedVal = num.replace(zeroThenNum, btnVal);
   return replacedVal;
