@@ -24,6 +24,7 @@ main {
   display: grid;
   place-content: center;
   height: 100vh;
+  padding: 16px;
 }
 
 /* || DISPLAY */
@@ -95,4 +96,18 @@ button:hover {
   color: var(--dark);
   grid-row: 4 / span 2;
   grid-column: 4;
+}
+
+/* || RESPONSIVE */
+
+@media screen and (max-width: 600px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  button {
+    padding: 24px;
+  }
 }
