@@ -54,6 +54,12 @@ function updateNum(num, btnVal, setNumFunc) {
     num += btnVal;
   }
 
+  const maxLength = 12;
+  if (num.length > maxLength) {
+    const cappedNum = num.slice(0, maxLength);
+    num = cappedNum;
+  }
+
   setNumFunc(num);
 }
 
