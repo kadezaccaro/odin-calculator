@@ -105,6 +105,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    touch-action: manipulation;
   }
 
   button {
