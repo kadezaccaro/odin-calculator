@@ -76,6 +76,13 @@ function setNum2(num) {
 function updateInputDisplay(value) {
   input.textContent = value;
 
+  const maxLength = 12;
+  if (input.textContent.length > maxLength) {
+    input.style.fontSize = "24px";
+  } else {
+    input.style.fontSize = "32px";
+  }
+
   if (value === "Cannot divide by 0") {
     setTimeout(() => {
       updateInputDisplay("0"); // clear error message back to 0 after 1 second
